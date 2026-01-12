@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { TodoProvider } from "./contexts/TodoContext";
 
 export const metadata: Metadata = {
   title: "TODO リスト",
@@ -13,7 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body>{children}</body>
+      <body>
+        <TodoProvider>{children}</TodoProvider>
+      </body>
     </html>
   );
 }

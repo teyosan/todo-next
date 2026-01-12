@@ -1,45 +1,20 @@
 "use client";
 
 import { useState } from "react";
-
-interface Todo {
-  id: number;
-  text: string;
-  completed: boolean;
-}
+import { useTodos } from "./contexts/TodoContext";
 
 export default function Home() {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const { todos, addTodo, deleteTodo, toggleTodo } = useTodos();
   const [inputValue, setInputValue] = useState("");
 
-  const addTodo = () => {
-    if (inputValue.trim() === "") return;
-
-    const newTodo: Todo = {
-      id: Date.now(),
-      text: inputValue,
-      completed: false,
-    };
-
-    setTodos([...todos, newTodo]);
+  const handleAddTodo = () => {
+    addTodo(inputValue);
     setInputValue("");
-  };
-
-  const deleteTodo = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
-
-  const toggleTodo = (id: number) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
-      addTodo();
+      handleAddTodo();
     }
   };
 
@@ -61,7 +36,7 @@ export default function Home() {
               className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <button
-              onClick={addTodo}
+              onClick={handleAddTodo}
               className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium"
             >
               追加
